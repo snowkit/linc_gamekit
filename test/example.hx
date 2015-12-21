@@ -1,5 +1,5 @@
 //All code is based on the GameKit programming guide.
-//Read that and understand it first
+//Read that and understand it first: https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/GameKit_Guide/GameCenterOverview/GameCenterOverview.html#//apple_ref/doc/uid/TP40008304-CH5-SW7
 
 //:todo: There is a Show event, which gives you a UIViewController/NSViewController
 //       that you are meant to use with your app view controller. This isn't implemented
