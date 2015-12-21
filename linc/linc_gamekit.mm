@@ -1,11 +1,17 @@
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
+#if defined(LINC_GAMEKIT_IOS)
+    #import <UIKit/UIKit.h>
+#endif
+
 #include "./linc_gamekit.h"
 #include "hxcpp.h"
 
 namespace linc {
     namespace gamekit {
+
+        void* GKWindow = 0;
 
         enum GameKitEventType {
             LocalPlayerAuthFail,
@@ -60,6 +66,11 @@ namespace linc {
             static void game_center_show_auth(UIViewController *viewController) {
                 NSLog(@"SHOW AUTH");
                 emit_event(LocalPlayerAuthShow, null(), null());
+                if(GKWindow) {
+                    UIWindow* window = (UIWindow*)GKWindow;
+                    UIViewController *vc = window.rootViewController;
+                    [vc presentViewController:viewController animated:YES completion:nil];
+                }
             }
         #endif
 
@@ -67,6 +78,10 @@ namespace linc {
             static void game_center_show_auth(NSViewController *viewController) {
                 NSLog(@"SHOW AUTH");
                 emit_event(LocalPlayerAuthShow, null(), null());
+                GKDialogController *presenter = [GKDialogController sharedDialogController];
+                NSWindow* window = [[[NSApplication sharedApplication] windows] objectAtIndex:0];
+                presenter.parentWindow = window;
+                [presenter presentViewController:viewController];
             }
         #endif
 

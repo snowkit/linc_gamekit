@@ -1,11 +1,13 @@
 #ifndef _LINC_GAMEKIT_H_
 #define _LINC_GAMEKIT_H_
-    
+
 #include <hxcpp.h>
 
 namespace linc {
 
     namespace gamekit {
+        
+        extern void* GKWindow;
 
         typedef ::cpp::Function < Void(int,::String, ::cpp::ArrayBase) > InternalGameKitEventFN;
         extern void internal_init(InternalGameKitEventFN fn);
