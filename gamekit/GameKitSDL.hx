@@ -16,8 +16,13 @@ extern class GameKitSDL {
             SDL_SysWMinfo info;
             SDL_VERSION(&info.version);
             SDL_GetWindowWMInfo({0},&info);
-            linc::gamekit::GKWindow = (void*)info.info.uikit.window;
-            printf("GKWindow %p\\n", linc::gamekit::GKWindow)
+            #if defined(LINC_GAMEKIT_IOS)
+                linc::gamekit::GKWindow = (void*)info.info.uikit.window;
+                printf("GKWindow iOS %p\\n", linc::gamekit::GKWindow)
+            #elif defined(LINC_GAMEKIT_MAC)
+                linc::gamekit::GKWindow = (void*)info.info.cocoa.window;
+                printf("GKWindow Mac %p\\n", linc::gamekit::GKWindow)
+            #endif
         ', window.ptr);
     }
 

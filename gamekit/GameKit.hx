@@ -6,19 +6,21 @@ package gamekit;
     var LocalPlayerAuthFail         = 0;
     var LocalPlayerAuthOk           = 1;
     var LocalPlayerAuthShow         = 2;
-    var AchievementsReportFail      = 3;
-    var AchievementsReportOk        = 4;
-    var AchievementsResetFail       = 5;
-    var AchievementsResetOk         = 6;
-    var AchievementsLoadFail        = 7;
-    var AchievementsLoadOk          = 8;
-    var NotificationBannerComplete  = 9;
+    var LocalPlayerAuthShowFail     = 3;
+    var AchievementsReportFail      = 4;
+    var AchievementsReportOk        = 5;
+    var AchievementsResetFail       = 6;
+    var AchievementsResetOk         = 7;
+    var AchievementsLoadFail        = 8;
+    var AchievementsLoadOk          = 9;
+    var NotificationBannerComplete  = 10;
 
     inline function toString() {
         return switch(this) {
             case LocalPlayerAuthFail:           'LocalPlayerAuthFail';
             case LocalPlayerAuthOk:             'LocalPlayerAuthOk';
             case LocalPlayerAuthShow:           'LocalPlayerAuthShow';
+            case LocalPlayerAuthShowFail:       'LocalPlayerAuthShowFail';
             case AchievementsReportFail:        'AchievementsReportFail';
             case AchievementsReportOk:          'AchievementsReportOk';
             case AchievementsResetFail:         'AchievementsResetFail';
@@ -58,6 +60,9 @@ extern class GameKit {
 
     @:native('linc::gamekit::authLocalPlayer')
     static function authLocalPlayer() : Void;
+
+    @:native('linc::gamekit::showAuthDialog')
+    static function showAuthDialog() : Void;
 
     @:native('linc::gamekit::loadAchievements')
     static function loadAchievements() : Void;

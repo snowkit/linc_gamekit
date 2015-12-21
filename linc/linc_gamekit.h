@@ -13,6 +13,7 @@ namespace linc {
         extern void internal_init(InternalGameKitEventFN fn);
 
         extern void authLocalPlayer();
+        extern void showAuthDialog();
         extern void loadAchievements();
         extern void resetAchievements();
         extern void reportAchievement(::String ident, float percent, bool showsCompletionBanner);

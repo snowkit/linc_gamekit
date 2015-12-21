@@ -12,11 +12,18 @@ namespace linc {
     namespace gamekit {
 
         void* GKWindow = 0;
+        
+        #if defined(LINC_GAMEKIT_IOS)
+            UIViewController* GKVC = 0;
+        #elif defined(LINC_GAMEKIT_MAC)
+            NSViewController* GKVC = 0;
+        #endif
 
         enum GameKitEventType {
             LocalPlayerAuthFail,
             LocalPlayerAuthOk,
             LocalPlayerAuthShow,
+            LocalPlayerAuthShowFail,
             AchievementsReportFail,
             AchievementsReportOk,
             AchievementsResetFail,
@@ -62,28 +69,6 @@ namespace linc {
             emit_event(NotificationBannerComplete, null(), null());
         }
 
-        #if defined(LINC_GAMEKIT_IOS)
-            static void game_center_show_auth(UIViewController *viewController) {
-                NSLog(@"SHOW AUTH");
-                emit_event(LocalPlayerAuthShow, null(), null());
-                if(GKWindow) {
-                    UIWindow* window = (UIWindow*)GKWindow;
-                    UIViewController *vc = window.rootViewController;
-                    [vc presentViewController:viewController animated:YES completion:nil];
-                }
-            }
-        #endif
-
-        #if defined(LINC_GAMEKIT_MAC)
-            static void game_center_show_auth(NSViewController *viewController) {
-                NSLog(@"SHOW AUTH");
-                emit_event(LocalPlayerAuthShow, null(), null());
-                GKDialogController *presenter = [GKDialogController sharedDialogController];
-                NSWindow* window = [[[NSApplication sharedApplication] windows] objectAtIndex:0];
-                presenter.parentWindow = window;
-                [presenter presentViewController:viewController];
-            }
-        #endif
 
         void authLocalPlayer() {
         
@@ -95,9 +80,11 @@ namespace linc {
             #elif defined(LINC_GAMEKIT_MAC)
                 ^(NSViewController *viewController, NSError *error) {
             #endif
-            
+                
+                    GKVC = viewController;
+
                      if (viewController != nil) {
-                         game_center_show_auth(viewController);
+                         emit_event(LocalPlayerAuthShow, null(), null());
                      } else if (localPlayer.isAuthenticated) {
                          game_center_auth_ok(localPlayer);
                      } else {
@@ -106,6 +93,30 @@ namespace linc {
                  }; //authenticateHandler block
 
          } //auth_local_player
+
+        void showAuthDialog() {
+
+            #if defined(LINC_GAMEKIT_IOS)
+                if(GKWindow && GKVC) {
+                    UIWindow* window = (UIWindow*)GKWindow;
+                    UIViewController *vc = window.rootViewController;
+                    [vc presentViewController:GKVC animated:YES completion:nil];
+                    GKVC = 0;
+                } else {
+                    emit_event(LocalPlayerAuthShowFail, ::String("GameKit UIWindow or UIViewController not set"), null());
+                }
+            #elif defined(LINC_GAMEKIT_MAC)
+                if (GKWindow && GKVC) {
+                    GKDialogController *presenter = [GKDialogController sharedDialogController];
+                    presenter.parentWindow = (NSWindow*)GKWindow;
+                    [presenter presentViewController:GKVC];
+                    GKVC = 0;
+                } else {
+                    emit_event(LocalPlayerAuthShowFail, ::String("GameKit NSWindow or NSViewController not set"), null());
+                }
+            #endif
+
+        } //showAuthDialog
 
         void reportAchievement(::String ident, float percent, bool showsCompletionBanner) {
 
