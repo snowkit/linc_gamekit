@@ -1,0 +1,23 @@
+<xml>
+
+    <!-- <error value="GameKit is specific to iOS." unless="ios"/> -->
+    <files id='haxe'>
+
+        <compilerflag value='-I${LINC_GAMEKIT_PATH}/linc/'/>
+        
+        <compilerflag value="-DLINC_GAMEKIT_IOS" if="ios"/>
+        <compilerflag value="-DLINC_GAMEKIT_MAC" if="mac"/>
+
+        <file name='${LINC_GAMEKIT_PATH}/linc/linc_gamekit.mm'/>
+
+    </files>
+
+    <target id="haxe">
+
+        <section if="mac">
+            <vflag name="-framework" value="GameKit" />
+        </section>
+
+    </target>
+
+</xml>
