@@ -1,4 +1,4 @@
-# linc/iCloud
+# linc/GameKit
 Haxe/hxcpp @:native bindings for [GameKit](https://developer.apple.com/game-center/).
 
 This is a [linc](http://snowkit.github.io/linc/) library.
