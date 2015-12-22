@@ -64,6 +64,9 @@ extern class GameKit {
     @:native('linc::gamekit::showAuthDialog')
     static function showAuthDialog() : Void;
 
+    @:native('linc::gamekit::showAchievements')
+    static function showAchievements() : Void;
+
     @:native('linc::gamekit::loadAchievements')
     static function loadAchievements() : Void;
 

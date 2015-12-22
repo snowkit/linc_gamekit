@@ -7,12 +7,35 @@
 
 #include "./linc_gamekit.h"
 #include "hxcpp.h"
+    
+namespace linc {
+    namespace gamekit {
+        void* GKWindow = 0;
+    }
+}
+
+
+@interface GCDelegate : NSObject<GKGameCenterControllerDelegate> @end
+@implementation GCDelegate
+
+    - (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController
+    {   
+        #if defined(LINC_GAMEKIT_IOS)
+            UIWindow* window = (UIWindow*)linc::gamekit::GKWindow;
+            UIViewController *vc = window.rootViewController;
+            [vc dismissViewControllerAnimated:YES completion:nil];
+        #elif defined(LINC_GAMEKIT_MAC)
+            //:todo:
+            // NSWindow* window = (NSWindow*)linc::gamekit::GKWindow;
+            // NSViewController *vc = window.rootViewController;
+        #endif
+    }
+
+@end
 
 namespace linc {
     namespace gamekit {
 
-        void* GKWindow = 0;
-        
         #if defined(LINC_GAMEKIT_IOS)
             UIViewController* GKVC = 0;
         #elif defined(LINC_GAMEKIT_MAC)
@@ -117,6 +140,38 @@ namespace linc {
             #endif
 
         } //showAuthDialog
+
+        GCDelegate *gcdelegate;
+
+        void showAchievements() {
+
+            if(GKWindow) {
+                #if defined(LINC_GAMEKIT_IOS)
+
+                    UIWindow* window = (UIWindow*)GKWindow;
+                    UIViewController *vc = window.rootViewController;
+
+                    if(gcdelegate == nil) {
+                        gcdelegate = [[GCDelegate alloc] init];
+                    }
+
+                    GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] init];
+                    
+                    if (gameCenterController != nil) {
+                       gameCenterController.gameCenterDelegate = gcdelegate;
+                       gameCenterController.viewState = GKGameCenterViewControllerStateAchievements;
+                       [vc presentViewController:gameCenterController animated:YES completion:nil];
+                    }
+                
+                #elif defined(LINC_GAMEKIT_MAC)
+
+                    //:todo:
+
+                #endif
+
+            }
+
+        } //showAchievements
 
         void reportAchievement(::String ident, float percent, bool showsCompletionBanner) {
 

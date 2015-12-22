@@ -14,6 +14,7 @@ namespace linc {
 
         extern void authLocalPlayer();
         extern void showAuthDialog();
+        extern void showAchievements();
         extern void loadAchievements();
         extern void resetAchievements();
         extern void reportAchievement(::String ident, float percent, bool showsCompletionBanner);
