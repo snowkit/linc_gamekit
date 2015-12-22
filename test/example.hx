@@ -6,9 +6,10 @@
 //       fully just yet but for the basic API is secondary
 
 //This must happen very early on in your game
-    
-        //the function is used for all callback state,
-        //and can be any normal haxe function
+
+        //this MUST happen first
+    gamekit.GameKitSDL.setWindow(Luxe.snow.runtime.window);
+        //the function is used for all callback state, can be any normal haxe function
     gamekit.GameKit.init(function(event:gamekit.GameKit.GameKitEvent) {
 
             //the type of event GameKitEventType
@@ -17,6 +18,12 @@
             //when there is an error around
         if(event.error != null) {
             trace('GameKit / event error / ${event.error}');
+        }
+
+            //for the show auth dialog request, 
+            //always call the function for you
+        if(event.type == GameKitEventType.LocalPlayerAuthShow) {
+            gamekit.GameKit.showAuthDialog();
         }
 
             //for AchievementsLoadOk event
