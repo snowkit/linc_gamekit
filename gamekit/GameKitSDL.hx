@@ -1,6 +1,7 @@
 package gamekit;
 
 import sdl.SDL;
+import sdl.SysWM.SysWMinfo;
 import sdl.Window;
 
 @:keep
@@ -11,7 +12,9 @@ import sdl.Window;
 extern class GameKitSDL {
     
     static inline function setWindow(window:Window) : Void {
+        //these lines keep the includes and stuff working for now
         SDL.getWindowID(window);
+        var sigh : SysWMinfo;
         untyped __cpp__('
             SDL_SysWMinfo info;
             SDL_VERSION(&info.version);
