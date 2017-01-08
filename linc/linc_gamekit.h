@@ -1,5 +1,4 @@
-#ifndef _LINC_GAMEKIT_H_
-#define _LINC_GAMEKIT_H_
+#pragma once
 
 #include <hxcpp.h>
 
@@ -23,5 +22,3 @@ namespace linc {
     } //gamekit namespace
 
 } //linc
-
-#endif //_LINC_GAMEKIT_H_
