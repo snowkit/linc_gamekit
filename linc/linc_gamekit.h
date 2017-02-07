@@ -8,7 +8,13 @@ namespace linc {
         
         extern void* GKWindow;
 
-        typedef ::cpp::Function < Void(int,::String, ::cpp::ArrayBase) > InternalGameKitEventFN;
+        #if (HXCPP_API_LEVEL>=330)
+            typedef void LincGamekitVoid;
+        #else
+            typedef Void LincGamekitVoid;
+        #endif
+
+        typedef ::cpp::Function < LincGamekitVoid(int,::String, ::Array<Dynamic>) > InternalGameKitEventFN;
         extern void internal_init(InternalGameKitEventFN fn);
 
         extern void authLocalPlayer();
