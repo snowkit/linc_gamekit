@@ -1,5 +1,5 @@
 # linc/GameKit
-Haxe/hxcpp @:native bindings for [GameKit](https://developer.apple.com/game-center/). 
+Haxe/hxcpp @:native bindings for [GameKit](https://developer.apple.com/game-center/).    
 Please note this library is a work in progress and has rough edges.
 
 This is a [linc](http://snowkit.github.io/linc/) library.
