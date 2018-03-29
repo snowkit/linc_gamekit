@@ -1,3 +1,7 @@
+#ifndef HXCPP_H
+#include <hxcpp.h>
+#endif
+
 #import <Foundation/Foundation.h>
 #import <GameKit/GameKit.h>
 
@@ -6,7 +10,6 @@
 #endif
 
 #include "./linc_gamekit.h"
-#include "hxcpp.h"
     
 namespace linc {
     namespace gamekit {
